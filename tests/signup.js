@@ -6,6 +6,10 @@ import uuid from './libs/uuid.js'
 export const options = {
   vus: 10,
   duration: '30s',
+  thresholds: {
+    http_req_duration: ['p(95)<2000'], // 95% das requisicoes devem responder em ate 2 segundos
+    http_req_failed: ['rate<0.01'] // 1% das requisicoes podem ocorrer erro
+  }
 };
 
 export default function () {
@@ -25,7 +29,7 @@ export default function () {
   console.log(res.body);
   
   check(res, {
-    'status should be 201': (r) => r.status === 200
+    'status should be 201': (r) => r.status === 201
   })
 
   sleep(1);
